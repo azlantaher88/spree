@@ -17,7 +17,8 @@ class Admin::OverviewController < Admin::BaseController
 
     # @best_selling_variants = best_selling_variants
     @best_selling_products = best_selling_products
-    @top_grossing_variants = top_grossing_variants
+    # @top_grossing_variants = top_grossing_variants
+    @top_grossing_products = top_grossing_products
     @last_five_orders = last_five_orders
     @biggest_spenders = biggest_spenders
     @out_of_stock_products = out_of_stock_products
@@ -125,6 +126,16 @@ class Admin::OverviewController < Admin::BaseController
     end
 
     variants.sort { |x,y| y[1] <=> x[1] }
+  end
+
+  def top_grossing_products(limit=5)
+    prices = LineItem.includes(:order, :variant).where("orders.state = 'complete'").sum("line_items.price", :group => "variants.product_id", :order => 'sum(line_items.price) desc', :limit => limit.to_i)
+    
+    products = prices.map do |p|
+      product = Product.find(p[0])
+      [product.name, product.price.to_i * prices[p[0]] ]
+    end
+    products.sort { |x,y| y[1] <=> x[1] }
   end
 
   def best_selling_taxons

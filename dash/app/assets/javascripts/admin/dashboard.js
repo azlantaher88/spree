@@ -111,7 +111,7 @@ jQuery(document).ready(function(){
       });
     });
 
-    best_selling_variants = jQuery.jqplot('best_selling_products', [best_selling_products_points], {
+    best_selling_products = jQuery.jqplot('best_selling_products', [best_selling_products_points], {
       grid: {background:'#fff',borderWidth: 0, borderColor: '#fff', shadow: false},
       seriesDefaults:{
         renderer:jQuery.jqplot.PieRenderer, 
@@ -121,7 +121,7 @@ jQuery(document).ready(function(){
     });
 
 
-    top_grossing_variants = jQuery.jqplot('top_grossing_products', [top_grossing_variants_points], {
+    top_grossing_products = jQuery.jqplot('top_grossing_products', [top_grossing_products_points], {
       grid: {background:'#fff',borderWidth: 0, borderColor: '#fff', shadow: false},
       seriesDefaults:{
         renderer:jQuery.jqplot.PieRenderer, 

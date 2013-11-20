@@ -15,7 +15,8 @@ class Admin::OverviewController < Admin::BaseController
     @orders_adjustment_total = orders_adjustment_total(p)
     @orders_credit_total = orders_credit_total(p)
 
-    @best_selling_variants = best_selling_variants
+    # @best_selling_variants = best_selling_variants
+    @best_selling_products = best_selling_products
     @top_grossing_variants = top_grossing_variants
     @last_five_orders = last_five_orders
     @biggest_spenders = biggest_spenders
@@ -105,6 +106,15 @@ class Admin::OverviewController < Admin::BaseController
       [variant.name, v[1] ]
     end
     variants.sort { |x,y| y[1] <=> x[1] }
+  end
+
+  def best_selling_products(limit=5)
+    li = LineItem.includes(:order, :variant).where("orders.state = 'complete'").sum(:quantity, :group => "variants.product_id", :order => 'sum(quantity) desc', :limit => limit.to_i)
+    products = li.map do |p|
+      product = Product.find(p[0])
+      [product.name, p[1] ]
+    end
+    products.sort { |x,y| y[1] <=> x[1] }
   end
 
   def top_grossing_variants

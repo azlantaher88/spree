@@ -9,7 +9,7 @@
           <h2><%= t(:best_selling_products) %></h2>
           <div id="best_selling_products" style="width:50%; height:170px; float:left;"></div>
           <div id="pie_legend">
-            <% @best_selling_variants.each_with_index do |v,i| %>
+            <% @best_selling_products.each_with_index do |v,i| %>
               <span style="background-color:<%= @pie_colors[i] %>">&nbsp;</span>
               <label><%= truncate v[0], :length => 27 %></label>
               <div><%= number_with_delimiter v[1] %> <%= t(:units) %></div>
@@ -150,7 +150,7 @@
   <% if @show_dashboard %>
     <%= javascript_tag do -%>
       var orders_by_day_points = [[<%== @orders_by_day.map { |day| "[\"#{day[0]}\",#{day[1]}]" }.join(",") %>]];
-      var best_selling_variants_points = [<%== @best_selling_variants.map { |v| "[\"#{h(v[0])}\",#{v[1]}]" }.join(",") %>];
+      var best_selling_products_points = [<%== @best_selling_products.map { |v| "[\"#{h(v[0])}\",#{v[1]}]" }.join(",") %>];
       var top_grossing_variants_points = [<%== @top_grossing_variants.map { |v| "[\"#{h(v[0])}\",#{v[1]}]" }.join(",") %>];
       var best_selling_taxons_points = [<%== @best_selling_taxons.map { |t| "[\"#{h(t[0])}\",#{t[1]}]" }.join(",") %>];
 
